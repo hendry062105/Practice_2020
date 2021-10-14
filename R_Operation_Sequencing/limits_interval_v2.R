@@ -1,0 +1,30 @@
+limits_interval_v2=function(){
+  idle=c()
+  t=t0
+  vec=c(t0,t0)
+  starts=c(t)
+  t=t+df$M1[1]
+  vec[1]=t
+  ends=c(t)
+  starts=c(starts,t)
+  vec[2]=t+df$M2[1]
+  ends=c(ends,t+df$M2[1])
+  for (i in 2:length(tasks)){
+    starts=c(starts,vec[1])
+    vec[1]=vec[1]+df$M1[i]
+    ends=c(ends,vec[1])
+    if (vec[1]>vec[2]){
+      starts=c(starts,vec[1])
+      idle=c(idle,vec[1]-vec[2])
+      vec[2]=vec[1]+df$M2[i]
+      ends=c(ends,vec[2])
+    }else{
+      starts=c(starts,vec[2])
+      vec[2]=vec[2]+df$M2[i]
+      ends=c(ends,vec[2])
+    }
+  }
+  starts<<-starts
+  ends<<-ends
+  idle<<-idle
+}
